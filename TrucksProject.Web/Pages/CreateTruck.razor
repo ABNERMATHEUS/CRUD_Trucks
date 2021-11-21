@@ -1,0 +1,60 @@
+﻿@page "/truck/create"
+@page "/truck/edit/{idtruck}"
+@using TrucksProject.Core.Contracts
+@using TrucksProject.Core.InputViewlModel
+@inject NavigationManager navigation
+@inject IServiceTruck serviceTruck
+
+
+
+<h3>@Title</h3>
+<br/>
+
+<FormTruck ButtonTextCancel="Cancelar"
+            ButtonTextSubmit="Salvar"
+            TruckInput="@truck"
+            OnValidSubmit="@CreateTruckSubmit" />
+@code {
+
+
+    public TruckInput truck = new TruckInput();
+
+    [Parameter]
+    public string idtruck { get; set; }
+
+
+    public string Title { get; set; }
+
+    async Task CreateTruckSubmit()
+    {
+        if(truck.Id != null && idtruck != null){
+            await serviceTruck.UpdateAsync(truck);
+        }
+        else{
+
+            await serviceTruck.CreateAsync(truck);
+        }        
+        navigation.NavigateTo("/listtrucks");
+
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if(idtruck != null){
+            Title = "Edit truck";
+            truck.Id = Guid.Parse(idtruck);
+            var truck_database = await serviceTruck.GetByIdAsync(truck.Id);
+            truck = new TruckInput(
+                                        truck_database.Id,
+                                        truck_database.YearFabrication,
+                                        truck_database.YearModel,
+                                        truck_database.ModelTruck);
+        }
+        else
+        {
+            Title = "Create truck";
+        }
+
+    }
+    
+}
