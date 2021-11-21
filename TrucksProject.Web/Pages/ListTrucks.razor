@@ -1,0 +1,57 @@
+﻿@page "/listtrucks"
+@using TrucksProject.Core.Contracts
+@using TrucksProject.Core.DTOs
+@inject IServiceTruck serviceTruck
+
+
+<h1>List of Trucks</h1>
+
+
+@if (trucks == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>YearFabrication</th>
+                <th>YearModel</th>
+                <th>ModelTruck</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in trucks)
+            {
+                <tr>
+                    <td>@item.Id.ToString()</td>
+                    <td>@item.YearFabrication</td>
+                    <td>@item.YearModel</td>
+                    <td>@item.ModelTruck.ToString()</td>
+                    <td>
+                    <a href='/truck/edit/@item.Id.ToString()' class="btn btn-success">Edit</a>                    
+                    <button  @onclick="@(()=>Delete(@item.Id))" class="btn btn-danger">Delete</button>
+                </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<TruckDTO> trucks;
+
+    protected override async Task OnInitializedAsync()
+    {
+        trucks = await serviceTruck.GetAllAsync();
+    }
+
+    async Task Delete(Guid id)
+    {
+        await serviceTruck.DeleteAsync(id);
+        trucks = await serviceTruck.GetAllAsync();
+    }
+}

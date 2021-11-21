@@ -1,0 +1,58 @@
+﻿@using TrucksProject.Domain.Enums
+@using TrucksProject.Core.InputViewlModel
+@inject NavigationManager navigation;
+
+<EditForm Model="@TruckInput" OnValidSubmit="@OnValidSubmit">
+    <DataAnnotationsValidator />    
+    <div class="form-group row">
+        <label form="nome">YearFabrication</label>
+        <div class="col-sm-4">
+            <InputNumber @bind-Value="TruckInput.YearFabrication" class="form-control" disabled="true"  />
+            <ValidationMessage For="@(()=> TruckInput.YearFabrication)" />
+        </div>
+    </div>
+    <div class="form-group row">
+        <label form="nome">YearModel</label>
+        <div class="col-sm-4">
+            <InputNumber @bind-Value="TruckInput.YearModel" class="form-control" />
+            <ValidationMessage For="@(()=> TruckInput.YearModel)" />
+        </div>
+    </div>
+    <div class="form-group row">
+        <label form="nome">Model</label>
+        <div class="col-sm-4">
+            <InputSelect @bind-Value="TruckInput.Model" class="form-control">
+                @foreach (var m in Enum.GetValues(typeof(ETrucksModel)))
+                {
+                    <option value="@m">@m</option>
+                }
+            </InputSelect>
+        </div>
+    </div>
+    <br />
+
+    <button type="submit" class="btn btn-success">
+        @ButtonTextSubmit
+    </button>
+    <button class="btn btn-danger"
+            @onclick="@(()=> navigation.NavigateTo("/"))">
+        @ButtonTextCancel
+    </button>
+</EditForm>
+
+@code {
+
+    [Parameter]
+    public TruckInput TruckInput { get; set; }
+
+
+    [Parameter]
+    public string ButtonTextSubmit { get; set; } = "Salvar";
+
+
+    [Parameter]
+    public string ButtonTextCancel { get; set; } = "Cancelar";
+
+    [Parameter]
+    public EventCallback OnValidSubmit { get; set; }
+}
