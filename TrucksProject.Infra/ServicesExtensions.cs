@@ -22,8 +22,8 @@ namespace TrucksProject.Infra
 
         private static IServiceCollection AddDataContexts(this IServiceCollection services,IConfiguration configuration)
         {
-            services.AddDbContext<Context>(options => options.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=Truck;Trusted_Connection=True;"));
-            //services.AddDbContext<Context>(opt => opt.UseInMemoryDatabase("Database"));
+            //services.AddDbContext<Context>(options => options.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=Truck;Trusted_Connection=True;"));
+            services.AddDbContext<Context>(opt => opt.UseInMemoryDatabase("Database"));
             return services;
         }
 
