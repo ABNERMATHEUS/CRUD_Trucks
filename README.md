@@ -1,7 +1,7 @@
 # CRUD_Trucks
 CRUD de caminhões utilizando .NET core com Blazor no frontend
 
-Abrir no visual studio e rodar a opção Docker ou TruncksProjects.Web
+Abrir no visual studio e rodar a opção Docker ou TrucksProjects.Web
 
 Foi utilizado 
 - NET.Core 3.1
